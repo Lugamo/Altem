@@ -32,11 +32,15 @@ class ViewController: UIViewController {
         } else if passwordTextField.text!.isEmpty {
             print("contraseña vacia")
         } else {
-            //let username = usernameTextField.text
-            //let password = passwordTextField.text
+            let username = usernameTextField.text
+            let password = passwordTextField.text
             Dologin("T00036117", "122395")
             
         }
+    }
+    @IBAction func LoginBtn(_ sender: UIButton) {
+        
+        self.performSegue(withIdentifier: "ShowtoList", sender: self)
     }
     
     func Dologin(_ user:String, _ psw:String){
@@ -71,7 +75,6 @@ class ViewController: UIViewController {
                     }
                 }
                 
-                print("******llego")
             } catch {
                 return
             }
@@ -85,9 +88,7 @@ class ViewController: UIViewController {
         task.resume()
     }
     
-    @IBAction func LoginBtn(_ sender: UIButton) {
-        self.performSegue(withIdentifier: "ShowtoList", sender: self)
-    }
+    
 }
 
 

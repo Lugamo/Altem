@@ -21,24 +21,24 @@ class studentsController: UIViewController, UITableViewDataSource, UITableViewDe
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         downloadJson()
-        print(token!)
+        Dologin()
         
     }
     
-    func Dologin(_ user:String, _ psw:String){
+    func Dologin(){
         let url = URL(string: "http://192.34.79.113/api/now/")
         let session = URLSession.shared
         
         let request = NSMutableURLRequest(url: url!)
-        request.httpMethod = "GET"
+        let completeTokenStr = String(describing:token!)
+        print(completeTokenStr)
+        let authorizationKey = "Bearer ".appending(completeTokenStr)
         
         //let paramToSend = "code=" + user + "&password=" + psw
         
         //request.httpBody = paramToSend.data(using: String.Encoding.utf8)
         
-        let completeToken = "Bearer " + String(describing:token!)
-        print(completeToken)
-        request.addValue(completeToken, forHTTPHeaderField: "Authorization")
+        request.addValue(authorizationKey, forHTTPHeaderField: "Authorization")
         
         let task = session.dataTask(with: request as URLRequest, completionHandler: {
             (data, response, error) in
@@ -54,8 +54,6 @@ class studentsController: UIViewController, UITableViewDataSource, UITableViewDe
             do{
                 json = try JSONSerialization.jsonObject(with: data!, options: [])
                 print(json)
-                
-                print("******llego")
             } catch {
                 return
             }
@@ -144,8 +142,6 @@ class studentsController: UIViewController, UITableViewDataSource, UITableViewDe
         let Yes = (UIAlertAction(title: "Si", style:UIAlertActionStyle.default, handler: { (action) -> Void in
             self.performSegue(withIdentifier: "ShowtoHub", sender: self)
             alert.dismiss(animated: true, completion: nil)
-            flag += 1
-            print(flag)
         }))
         let No = (UIAlertAction(title: "No", style:UIAlertActionStyle.default, handler: { (action) in
             alert.dismiss(animated: true, completion: nil)

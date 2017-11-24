@@ -42,14 +42,14 @@
                                     <action selector="LoginBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3CD-dw-JiS"/>
                                 </connections>
                             </button>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Dag-5x-I3h">
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Contraseña" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Dag-5x-I3h">
                                 <rect key="frame" x="77" y="292" width="221" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="201-6N-RHq">
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Código" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="201-6N-RHq">
                                 <rect key="frame" x="77" y="235" width="221" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <nil key="textColor"/>
@@ -178,7 +178,7 @@
                         <viewLayoutGuide key="safeArea" id="dMv-Ln-TrB"/>
                     </view>
                     <navigationItem key="navigationItem" id="vAV-tK-wlD">
-                        <barButtonItem key="rightBarButtonItem" title="Cancelar" id="7Uf-8D-1RN">
+                        <barButtonItem key="leftBarButtonItem" title="Cancelar" id="7Uf-8D-1RN">
                             <connections>
                                 <action selector="Cancelar:" destination="00M-Kq-0Cv" id="F4H-Az-hng"/>
                             </connections>
