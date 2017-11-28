@@ -8,12 +8,14 @@
 
 import UIKit
 import Foundation
-var token:Any?
+
 
 class ViewController: UIViewController {
     
     @IBOutlet var passwordTextField: UITextField!
     @IBOutlet var usernameTextField: UITextField!
+    var flag = String()
+    var token:Any?
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -24,9 +26,7 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    
- 
-    @IBAction func Testubttn(_ sender: UIButton) {
+    @IBAction func LoginBtn(_ sender: UIButton) {
         if usernameTextField.text!.isEmpty {
             print("nombre vacio")
         } else if passwordTextField.text!.isEmpty {
@@ -34,13 +34,23 @@ class ViewController: UIViewController {
         } else {
             let username = usernameTextField.text
             let password = passwordTextField.text
-            Dologin("T00036117", "122395")
+            Dologin(String(describing: username!), String(describing: password!))
+            if token != nil{
+                if String(describing: token!) != "" {
+                    performSegue(withIdentifier: "segue", sender: self)
+                }
+            }
             
         }
-    }
-    @IBAction func LoginBtn(_ sender: UIButton) {
         
-        self.performSegue(withIdentifier: "ShowtoList", sender: self)
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?){
+        if token != nil{
+        let navc = segue.destination as! UINavigationController
+            let listController = navc.viewControllers.first as! studentsController
+            listController.myToken = String(describing: token!)
+            }
     }
     
     func Dologin(_ user:String, _ psw:String){
@@ -57,9 +67,6 @@ class ViewController: UIViewController {
         let task = session.dataTask(with: request as URLRequest, completionHandler: {
         (data, response, error) in
             
-            //print("****** response = \(response)")
-            //let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-            //print("********* response data = \(responseString)")
             guard let _:Data = data else{
                 return
             }
@@ -67,25 +74,22 @@ class ViewController: UIViewController {
             
             do{
                 json = try JSONSerialization.jsonObject(with: data!, options: [])
-                print(json)
                 if let dictionary = json as? [String: Any]{
                     if let result = dictionary["result"] as? [String: Any]{
-                        token = result["token"]
-                        print(token!)
+                        self.token = result["token"]
+                        
                     }
                 }
+                
                 
             } catch {
                 return
             }
             
-            guard let server_response = json as? NSDictionary else
-            {
-                return
-            }
-            
+        
         })
         task.resume()
+        
     }
     
     

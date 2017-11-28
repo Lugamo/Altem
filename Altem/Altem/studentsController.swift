@@ -8,44 +8,49 @@
 
 
 import UIKit
-
+import Foundation
 var flag = 0
+var students = [Student2]()
+var missing = [Missing]()
 class studentsController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     final let url2 = URL(string: "http://microblogging.wingnity.com/JSONParsingTutorial/jsonActors")
+    
     var myToken = String()
-    private var students = [Student]()
+    var individual = Student2(name: "N/A", lastname: "N/A", id: "N/A", nrc: "N/A", attendance: false)
+    
     
     @IBOutlet var tableView: UITableView!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        downloadJson()
-        Dologin()
+        //downloadJson()
+        if flag == 0{
+            print(flag)
+            Dologin()
+        } else {
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+        flag += 1
+        
         
     }
     
     func Dologin(){
-        let url = URL(string: "http://192.34.79.113/api/now/")
+        guard let url = URL(string: "http://192.34.79.113/api/now/") else {return}
         let session = URLSession.shared
         
-        let request = NSMutableURLRequest(url: url!)
-        let completeTokenStr = String(describing:token!)
-        print(completeTokenStr)
+        let request = NSMutableURLRequest(url: url)
+        let completeTokenStr = myToken
         let authorizationKey = "Bearer ".appending(completeTokenStr)
-        
-        //let paramToSend = "code=" + user + "&password=" + psw
-        
-        //request.httpBody = paramToSend.data(using: String.Encoding.utf8)
         
         request.addValue(authorizationKey, forHTTPHeaderField: "Authorization")
         
         let task = session.dataTask(with: request as URLRequest, completionHandler: {
             (data, response, error) in
             
-            //print("****** response = \(response)")
-            //let responseString = NSString(data: data!, encoding: String.Encoding.utf8.rawValue)
-            //print("********* response data = \(responseString)")
             guard let _:Data = data else{
                 return
             }
@@ -53,25 +58,28 @@ class studentsController: UIViewController, UITableViewDataSource, UITableViewDe
             
             do{
                 json = try JSONSerialization.jsonObject(with: data!, options: [])
-                print(json)
+                if let dictionary = json as? [String: Any]{
+                    if let result = dictionary["data"] as? [String: Any]{
+                        if let all = result["Students"] as? [NSDictionary]{
+                            for name in all{
+                                self.individual.name = String(describing:name.value(forKey: "NOMBRES")!)
+                                self.individual.lastname = String(describing:name.value(forKey: "APELLIDOS")!)
+                                self.individual.id = String(describing:name.value(forKey: "ID")!)
+                                self.individual.nrc = String(describing:name.value(forKey: "NRC")!)
+                                students.append(Student2(name: self.individual.name, lastname: self.individual.lastname, id: self.individual.id, nrc: self.individual.nrc, attendance: true))
+                               
+                            }
+                        }
+                    }
+                }
+                DispatchQueue.main.async {
+                    self.tableView.reloadData()
+                }
             } catch {
                 return
             }
-            
-            guard let server_response = json as? NSDictionary else
-            {
-                return
-            }
-            
         })
         task.resume()
-    }
-    
-    
-    
-    
-    
-    @IBAction func studentSwitch(_ sender: UISwitch) {
     }
     
     
@@ -80,28 +88,6 @@ class studentsController: UIViewController, UITableViewDataSource, UITableViewDe
         // Dispose of any resources that can be recreated.
     }
     
-    func downloadJson(){
-        guard let downloadURL = url2 else { return }
-        URLSession.shared.dataTask(with: downloadURL) { data, URLResponse, error in
-            
-            guard let data = data, error == nil, URLResponse != nil else {
-                print("somethin wrong")
-                return
-            }
-            print("Downloaded")
-            do{
-                let decoder = JSONDecoder()
-                let downloadedStudents = try decoder.decode(Students.self, from: data)
-                self.students = downloadedStudents.actors
-                DispatchQueue.main.async {
-                    self.tableView.reloadData()
-                }
-                
-            } catch {
-                print("something wrong after downloaded")
-            }
-        }.resume()
-        }
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -125,15 +111,56 @@ class studentsController: UIViewController, UITableViewDataSource, UITableViewDe
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if tableView.cellForRow(at: indexPath)?.accessoryType == UITableViewCellAccessoryType.checkmark{
             tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.none
+            students[indexPath.row].attendance = false
         } else {
             tableView.cellForRow(at: indexPath)?.accessoryType = UITableViewCellAccessoryType.checkmark
-            print(students[indexPath.row].name)
+            students[indexPath.row].attendance = true
         }
     }
     @IBAction func Cancelar(_ sender: UIBarButtonItem) {
         createAlert()
     }
     
+    @IBAction func Enviar(_ sender: UIBarButtonItem) {
+        for i in students {
+            if i.attendance == false{
+                missing.append(Missing(id: i.id, nrc: i.nrc))
+            }
+        }
+        do{
+            let jsonData = try JSONEncoder().encode(missing)
+            let jsonString = String(data: jsonData, encoding: .utf8)
+            PostMissing(JsonPost: jsonString)
+            print(jsonString!)
+            let session = URLSession.shared
+            guard let url = URL(string: "http://192.34.79.113/api/now/") else {return}
+            let request = NSMutableURLRequest(url: url)
+            request.httpMethod = "POST"
+            request.addValue("application/jason", forHTTPHeaderField: "Content-Type")
+            request.httpBody = jsonData
+            let task = session.dataTask(with: request as URLRequest, completionHandler: {
+                (data, response, error) in
+                
+                guard let _:Data = data else{
+                    return
+                }
+            })
+            task.resume()
+            
+            
+        } catch {
+            return
+        }
+        
+        self.performSegue(withIdentifier: "ShowtoHub", sender: self)
+        
+    }
+    func PostMissing(JsonPost: Any? ){
+        guard let url = URL(string: "http://192.34.79.113/api/now/") else {return}
+        let request = NSMutableURLRequest(url: url)
+        request.httpMethod = "POST"
+        //request.httpBody = JsonPost
+    }
     
     func createAlert ()
     {
