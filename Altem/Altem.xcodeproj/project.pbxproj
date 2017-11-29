@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0526CECA1FCF24FD006AEEA5 /* profileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0526CEC91FCF24FD006AEEA5 /* profileController.swift */; };
+		0526CECF1FCF6502006AEEA5 /* ClassController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0526CECE1FCF6502006AEEA5 /* ClassController.swift */; };
 		D5E39C451FC45AF400C04B09 /* StudentsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E39C441FC45AF400C04B09 /* StudentsCell.swift */; };
 		D5E39C471FC4638C00C04B09 /* Student.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E39C461FC4638C00C04B09 /* Student.swift */; };
 		D5E39C4B1FC4773D00C04B09 /* Supporting_Files.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5E39C4A1FC4773D00C04B09 /* Supporting_Files.xcassets */; };
@@ -37,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0526CEC91FCF24FD006AEEA5 /* profileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profileController.swift; sourceTree = "<group>"; };
+		0526CECE1FCF6502006AEEA5 /* ClassController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassController.swift; sourceTree = "<group>"; };
 		D5E39C441FC45AF400C04B09 /* StudentsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentsCell.swift; sourceTree = "<group>"; };
 		D5E39C461FC4638C00C04B09 /* Student.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Student.swift; sourceTree = "<group>"; };
 		D5E39C4A1FC4773D00C04B09 /* Supporting_Files.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Supporting_Files.xcassets; sourceTree = "<group>"; };
@@ -80,6 +84,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0526CECB1FCF3B29006AEEA5 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				0526CEC91FCF24FD006AEEA5 /* profileController.swift */,
+				D5E7CEDD1FC34C96006946D5 /* studentsController.swift */,
+				D5E7CEB11FC34595006946D5 /* ViewController.swift */,
+				0526CECE1FCF6502006AEEA5 /* ClassController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		0526CECC1FCF3B4D006AEEA5 /* StoryBoards */ = {
+			isa = PBXGroup;
+			children = (
+				D5E7CEB81FC34595006946D5 /* LaunchScreen.storyboard */,
+				D5E7CEB31FC34595006946D5 /* Main.storyboard */,
+			);
+			path = StoryBoards;
+			sourceTree = "<group>";
+		};
+		0526CECD1FCF3B69006AEEA5 /* Class */ = {
+			isa = PBXGroup;
+			children = (
+				D5E39C461FC4638C00C04B09 /* Student.swift */,
+			);
+			path = Class;
+			sourceTree = "<group>";
+		};
 		D5E39C481FC4750200C04B09 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -118,14 +150,12 @@
 		D5E7CEAE1FC34595006946D5 /* Altem */ = {
 			isa = PBXGroup;
 			children = (
+				0526CECD1FCF3B69006AEEA5 /* Class */,
+				0526CECC1FCF3B4D006AEEA5 /* StoryBoards */,
+				0526CECB1FCF3B29006AEEA5 /* Controllers */,
 				D5E39C481FC4750200C04B09 /* Support Files */,
 				D5E7CEAF1FC34595006946D5 /* AppDelegate.swift */,
-				D5E7CEB11FC34595006946D5 /* ViewController.swift */,
-				D5E7CEB31FC34595006946D5 /* Main.storyboard */,
-				D5E7CEB81FC34595006946D5 /* LaunchScreen.storyboard */,
 				D5E7CEBB1FC34595006946D5 /* Info.plist */,
-				D5E7CEDD1FC34C96006946D5 /* studentsController.swift */,
-				D5E39C461FC4638C00C04B09 /* Student.swift */,
 				D5E39C441FC45AF400C04B09 /* StudentsCell.swift */,
 				D5E39C4A1FC4773D00C04B09 /* Supporting_Files.xcassets */,
 			);
@@ -287,8 +317,10 @@
 				D5E7CEB21FC34595006946D5 /* ViewController.swift in Sources */,
 				D5E7CEB01FC34595006946D5 /* AppDelegate.swift in Sources */,
 				D5E7CEDE1FC34C96006946D5 /* studentsController.swift in Sources */,
+				0526CECA1FCF24FD006AEEA5 /* profileController.swift in Sources */,
 				D5E39C471FC4638C00C04B09 /* Student.swift in Sources */,
 				D5E39C451FC45AF400C04B09 /* StudentsCell.swift in Sources */,
+				0526CECF1FCF6502006AEEA5 /* ClassController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
